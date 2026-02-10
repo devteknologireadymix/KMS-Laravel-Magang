@@ -44,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/apps/{id}', [SuperAppController::class, 'update']);
     Route::delete('/apps/{id}', [SuperAppController::class, 'destroy']);
 
-    // ⭐ TAMBAHAN USERS
+    
     Route::apiResource('users', UserController::class);
     });
 

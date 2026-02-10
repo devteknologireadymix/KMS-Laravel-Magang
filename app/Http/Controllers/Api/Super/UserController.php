@@ -12,7 +12,7 @@ class UserController extends Controller
     public function index()
     {
         return response()->json(
-            User::select('id','nama','email','username','role','status')->get()
+            User::select('id', 'nama', 'email', 'username', 'role', 'status')->get()
         );
     }
 
@@ -27,8 +27,12 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
-            ...$request->all(),
-            'password' => Hash::make($request->password)
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'status' => $request->status ?? 'active', // added a default or safety check
         ]);
 
         return response()->json($user, 201);
@@ -43,9 +47,17 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $data = $request->all();
+        // It's safer to validate during update too!
+        $data = $request->validate([
+            'nama' => 'sometimes|required',
+            'email' => 'sometimes|email|unique:users,email,' . $id,
+            'username' => 'sometimes|unique:users,username,' . $id,
+            'password' => 'sometimes|min:6',
+            'role' => 'sometimes|required',
+            'status' => 'sometimes',
+        ]);
 
-        if(isset($data['password'])){
+        if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
 
@@ -58,6 +70,6 @@ class UserController extends Controller
     {
         User::findOrFail($id)->delete();
 
-        return response()->json(['message'=>'User deleted']);
+        return response()->json(['message' => 'User deleted']);
     }
 }
