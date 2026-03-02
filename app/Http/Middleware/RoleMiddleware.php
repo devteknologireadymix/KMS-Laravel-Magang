@@ -19,7 +19,7 @@ class RoleMiddleware
 
         if(!$user)
             {
-                return response()->json(['message' => 'Unathenticated'], 401);
+                return response()->json(['message' => 'Unauthenticated'], 401);
             }
 
         if(!in_array($user->role, $roles))

@@ -24,6 +24,7 @@ class UserController extends Controller
             'username' => 'required|unique:users',
             'password' => 'required|min:6',
             'role' => 'required',
+            'status' => 'required|in:aktif,nonaktif',
         ]);
 
         $user = User::create([
@@ -32,7 +33,7 @@ class UserController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'status' => $request->status ?? 'active', // added a default or safety check
+            'status' => $request->status, // added a default or safety check
         ]);
 
         return response()->json($user, 201);

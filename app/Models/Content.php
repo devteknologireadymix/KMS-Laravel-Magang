@@ -13,6 +13,8 @@ class Content extends Model
         'user_id',
         'title',
         'body',
+        'category',
+        'thumbnail',
         'status',
         'published_at',
         'approved_by',
