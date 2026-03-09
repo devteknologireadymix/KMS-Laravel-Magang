@@ -42,7 +42,7 @@ class SuperAppController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
-        $App->update($data);
+        $app->update($data);
 
         return response()->json([
             'message' => 'Aplikasi berhasul diupdate',
